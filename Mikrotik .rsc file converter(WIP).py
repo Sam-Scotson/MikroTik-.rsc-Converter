@@ -43,7 +43,6 @@ def start():
     os.chdir(ori)
     print('Conversion Successful!')
 
-
 time.sleep(0.1)
 
 def getrscfiles(inputdir):
@@ -199,4 +198,5 @@ def ipfirersc2sql(rscfile):
         print('Permission Error, try another path')
         ipfirersc2sql(rscfile)
     return(df_rsc)
+
 start()
