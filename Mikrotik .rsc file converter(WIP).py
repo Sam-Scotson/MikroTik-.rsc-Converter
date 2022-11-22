@@ -200,29 +200,3 @@ def ipfirersc2sql(rscfile):
         ipfirersc2sql(rscfile)
     return(df_rsc)
 start()
-
-
-time.sleep(0.1)
-#///////////////////////////////////////////////////////////////
-def cjd2rsc():
-    """(.cjd = .Csv, .Json, .Db)
-    change dir to .cjd file path, 
-    picks up files places them in a dict
-    
-    Args:
-     directory path(str)
-     
-    Returns: 
-     Panda DataFrame"""
-    global di_rscfiles
-    try:
-        os.chdir(inputdir)
-    except FileNotFoundError as e:
-        print('Input correct path directory')
-        start()
-    rscfiles=glob.glob(inputdir + '\\*.csv', '\\*.json','\\*.db')
-    di_rscfiles={ i : rscfiles[i] for i in range(0, len(rscfiles) ) }
-    return(di_rscfiles)
-#///////////////////////////////////////////////////////////////
-
-start()
