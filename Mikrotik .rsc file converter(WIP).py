@@ -2,7 +2,7 @@ import os; import glob; import pandas as pd; import time
 
 def start():
     """Core function of script, sets scope of interlinked variables, 
-    quires for inputs, executes .rsc file gather functions in needed order, 
+    queries for inputs, executes .rsc file gather functions in needed order, 
     allows selection of file conversion function
     
     Args:
