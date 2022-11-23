@@ -10,4 +10,4 @@ Future conversion back into .rsc planned to allow full integration with in-house
 Tidy up of pandas df column and row index<br>
 Duplicate scripts created for all other .rsc files
 
-.rsc files provided for testing 
+.rsc file sample provided for testing 
