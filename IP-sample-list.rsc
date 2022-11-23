@@ -1,0 +1,20 @@
+/ip firewall address-list
+add address=14.1.32.0/19 comment="NEW ZEALAND" list=CountryIPBlocks
+add address=14.1.64.0/19 comment="NEW ZEALAND" list=CountryIPBlocks
+add address=14.128.4.0/22 comment="NEW ZEALAND" list=CountryIPBlocks
+add address=14.137.0.0/19 comment="NEW ZEALAND" list=CountryIPBlocks
+add address=27.0.232.0/22 comment="NEW ZEALAND" list=CountryIPBlocks
+add address=27.96.64.0/22 comment="NEW ZEALAND" list=CountryIPBlocks
+add address=27.110.120.0/21 comment="NEW ZEALAND" list=CountryIPBlocks
+add address=27.111.12.0/22 comment="NEW ZEALAND" list=CountryIPBlocks
+add address=27.121.88.0/22 comment="NEW ZEALAND" list=CountryIPBlocks
+add address=27.121.96.0/22 comment="NEW ZEALAND" list=CountryIPBlocks
+add address=27.123.20.0/22 comment="NEW ZEALAND" list=CountryIPBlocks
+add address=27.252.0.0/16 comment="NEW ZEALAND" list=CountryIPBlocks
+add address=43.224.120.0/22 comment="NEW ZEALAND" list=CountryIPBlocks
+add address=43.224.250.0/23 comment="NEW ZEALAND" list=CountryIPBlocks
+add address=43.225.200.0/22 comment="NEW ZEALAND" list=CountryIPBlocks
+add address=43.226.8.0/22 comment="NEW ZEALAND" list=CountryIPBlocks
+add address=43.226.216.0/22 comment="NEW ZEALAND" list=CountryIPBlocks
+add address=43.228.184.0/22 comment="NEW ZEALAND" list=CountryIPBlocks
+add address=43.231.192.0/22 comment="NEW ZEALAND" list=CountryIPBlocks
