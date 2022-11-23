@@ -1,6 +1,5 @@
 # //MikroTik-.rsc-Converter//
 Work In Progress <br>
-First project as python coder and for personal use as a Network Engineer <br>
 File converter for working with the difficult .rsc file format native to MikroTik RouterOS <br>
 Currently allows conversion of Ip-Address-Firewall.rsc files to .csv and .json <br>
 
