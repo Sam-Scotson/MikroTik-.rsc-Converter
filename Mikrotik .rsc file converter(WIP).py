@@ -166,13 +166,13 @@ time.sleep(0.1)
 
 def ipfirersc2sql(rscfile):
     """Function is for use with IP-firewall-Address-List.rsc
-    Converts .rsc file to .sql file
+    Converts .rsc file to sql .db file
 
     Args:
      rscfile=path and file directory
 
     Returns:
-     writes new sql file to path directory"""
+     writes new .db file to path directory"""
     from sqlalchemy import create_engine
     global df_rsc
     global rsclist
@@ -185,8 +185,8 @@ def ipfirersc2sql(rscfile):
                     'list=CountryIPBlocks\n', 'list=CountryIPBlocks]')
             rsclist.append(str)
     try:
-        newdir=input('enter dir path to save .sql file --> ')
-        sql=input('enter sql sever (sqlite:///foo.db format) --> ')
+        newdir=input('enter dir path to save .db file --> ')
+        sql=input('enter sql sever (sqlite format) --> ')
         os.chdir(newdir)
         df_rsc=pd.DataFrame(rsclist)
         engine = create_engine(sql)
