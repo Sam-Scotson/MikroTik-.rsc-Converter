@@ -1,9 +1,8 @@
-import os; import glob; import pandas as pd; import time
-
+import os; import glob; import pandas as pd
 def start():
     """Core function of script, sets scope of interlinked variables, 
-    queries for inputs, executes functions in needed order, 
-    allows selection of file conversion function
+    queries for inputs, executes functions in needed order, 
+    allows selection of file conversion function
     
     Args:
      none
@@ -27,6 +26,7 @@ def start():
     contooldict={ 
         'csv' : ipfirersc2csv, 
         'json' : ipfirersc2json,
+        'html' : ipfirersc2html,
         'sql' : ipfirersc2sql
         }
     for key, value in contooldict.items():
@@ -42,8 +42,6 @@ def start():
         print(df_rsc)
     os.chdir(ori)
     print('Conversion Successful!')
-
-time.sleep(0.1)
 
 def getrscfiles(inputdir):
     """change dir to .rsc file path, 
@@ -62,9 +60,7 @@ def getrscfiles(inputdir):
         start()
     rscfiles=glob.glob(inputdir + '\\*.rsc')
     di_rscfiles={ i : rscfiles[i] for i in range(0, len(rscfiles) ) }
-    return(di_rscfiles)
- 
-time.sleep(0.1)
+    return(di_rscfiles) 
 
 def rscselect(di_rscfiles):
     """allows user to select .rsc file from dict with int
@@ -75,10 +71,10 @@ def rscselect(di_rscfiles):
     Returns:
      .rsc file in dict object"""
     global di_rscfile
-    for key, value in di_rscfiles.items():
-        print(key, ' : ', value)
     try:
-        knum=input('select key number --> ')
+        for key, value in di_rscfiles.items():
+            print(key, ' : ', value)
+        knum=input('select file key number --> ')
         inum=int(knum)
         di_rscfile=di_rscfiles[inum]
     except ValueError as e:
@@ -92,15 +88,11 @@ def rscselect(di_rscfiles):
         rscselect(di_rscfiles)   
     return(di_rscfile)
 
-time.sleep(0.1)
-
 def ipfirersc2csv(rscfile):
     """Function is for use with IP-firewall-Address-List.rsc
     Converts .rsc file to .csv file
-
     Args:
      rscfile=path and file directory
-
     Returns:
      writes new csv file to .rsc path directory"""
     global rsclist
@@ -117,7 +109,8 @@ def ipfirersc2csv(rscfile):
         newdir=input('enter dir path to save .csv file --> ')
         name=input('enter name for new file --> ')
         os.chdir(newdir)
-        df_rsc=pd.DataFrame(rsclist)
+        df_rsc1=pd.DataFrame(rsclist)
+        df_rsc=df_rsc1.drop(0)
         df_rsc.to_csv(name + '.csv')
     except FileNotFoundError as e:
         print('Input directory path')
@@ -127,15 +120,11 @@ def ipfirersc2csv(rscfile):
         ipfirersc2csv(rscfile)
     return(df_rsc)
 
-time.sleep(0.1)
-
 def ipfirersc2json(rscfile):
     """Function is for use with IP-firewall-Address-List.rsc
     Converts .rsc file to .json file
-
     Args:
      rscfile=path and file directory
-
     Returns:
      writes new json file to path directory"""
     global rsclist
@@ -152,7 +141,8 @@ def ipfirersc2json(rscfile):
         newdir=input('enter dir path to save .json file --> ')
         name=input('enter name for new file --> ')
         os.chdir(newdir)
-        df_rsc=pd.DataFrame(rsclist)
+        df_rsc1=pd.DataFrame(rsclist)
+        df_rsc=df_rsc1.drop(0)
         df_rsc.to_json(name + '.json')
     except FileNotFoundError as e:
         print('Input directory path')
@@ -162,15 +152,11 @@ def ipfirersc2json(rscfile):
         ipfirersc2json(rscfile)
     return(df_rsc)
 
-time.sleep(0.1)
-
 def ipfirersc2sql(rscfile):
     """Function is for use with IP-firewall-Address-List.rsc
     Converts .rsc file to sql .db file
-
     Args:
      rscfile=path and file directory
-
     Returns:
      writes new .db file to path directory"""
     from sqlalchemy import create_engine
@@ -188,7 +174,8 @@ def ipfirersc2sql(rscfile):
         newdir=input('enter dir path to save .db file --> ')
         sql=input('enter sql sever (sqlite format) --> ')
         os.chdir(newdir)
-        df_rsc=pd.DataFrame(rsclist)
+        df_rsc1=pd.DataFrame(rsclist)
+        df_rsc=df_rsc1.drop(0)
         engine = create_engine(sql)
         df_rsc.to_sql(sql, if_exists="append", chunksize=1000, con=engine)
     except FileNotFoundError as e:
@@ -197,5 +184,37 @@ def ipfirersc2sql(rscfile):
     except PermissionError as e:
         print('Permission Error, try another path')
         ipfirersc2sql(rscfile)
+    return(df_rsc)
+
+def ipfirersc2html(rscfile):
+    """Function is for use with IP-firewall-Address-List.rsc
+    Converts .rsc file to .html file
+    Args:
+     rscfile=path and file directory
+    Returns:
+     writes new html file to path directory"""
+    global rsclist
+    global df_rsc
+    rsclist=[]
+    str=''
+    with open(rscfile) as rsc:
+        for line in rsc:
+            if line.startswith('add '):
+                str=line.replace('add ', '[add ').replace(
+                    'list=CountryIPBlocks\n', 'list=CountryIPBlocks]')
+                rsclist.append(str)
+    try:
+        newdir=input('enter dir path to save .html file --> ')
+        name=input('enter name for new file --> ')
+        os.chdir(newdir)
+        df_rsc1=pd.DataFrame(rsclist)
+        df_rsc=df_rsc1.drop(0)
+        df_rsc.to_html(name + '.html')
+    except FileNotFoundError as e:
+        print('Input directory path')
+        ipfirersc2html(rscfile)
+    except PermissionError as e:
+        print('Permission Error, try another path')
+        ipfirersc2html(rscfile)
     return(df_rsc)
 start()
