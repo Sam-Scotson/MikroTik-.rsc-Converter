@@ -24,10 +24,10 @@ def start():
     rscfiles=getrscfiles(inputdir)
     rscfile=rscselect(di_rscfiles)
     contooldict={ 
-        'csv' : ipfirersc2csv, 
-        'json' : ipfirersc2json,
-        'html' : ipfirersc2html,
-        'sql' : ipfirersc2sql
+        'csv' : rsc2csv, 
+        'json' : rsc2json,
+        'html' : rsc2html,
+        'sql' : rsc2sql
         }
     for key, value in contooldict.items():
         print(key, ' : ', value)
@@ -88,7 +88,7 @@ def rscselect(di_rscfiles):
         rscselect(di_rscfiles)   
     return(di_rscfile)
 
-def ipfirersc2csv(rscfile):
+def rsc2csv(rscfile):
     """Function is for use with IP-firewall-Address-List.rsc
     Converts .rsc file to .csv file
     Args:
@@ -102,9 +102,8 @@ def ipfirersc2csv(rscfile):
     with open(rscfile) as rsc:
         for line in rsc:
             if line.startswith('add '):
-                str=line.replace('add ', '[add ').replace(
-                    'list=CountryIPBlocks\n', 'list=CountryIPBlocks]')
-            rsclist.append(str)
+                str=line.replace('list=CountryIPBlocks\n', 'list=CountryIPBlocks ')
+                rsclist.append(str)
     try:
         newdir=input('enter dir path to save .csv file --> ')
         name=input('enter name for new file --> ')
@@ -114,13 +113,13 @@ def ipfirersc2csv(rscfile):
         df_rsc.to_csv(name + '.csv')
     except FileNotFoundError as e:
         print('Input directory path')
-        ipfirersc2csv(rscfile)
+        rsc2csv(rscfile)
     except PermissionError as e:
         print('Permission Error, try another path')
-        ipfirersc2csv(rscfile)
+        rsc2csv(rscfile)
     return(df_rsc)
 
-def ipfirersc2json(rscfile):
+def rsc2json(rscfile):
     """Function is for use with IP-firewall-Address-List.rsc
     Converts .rsc file to .json file
     Args:
@@ -134,9 +133,11 @@ def ipfirersc2json(rscfile):
     with open(rscfile) as rsc:
         for line in rsc:
             if line.startswith('add '):
-                str=line.replace('add ', '[add ').replace(
-                    'list=CountryIPBlocks\n', 'list=CountryIPBlocks]')
-            rsclist.append(str)
+                str=line.replace('list=CountryIPBlocks\n', 'list=CountryIPBlocks ')
+                rsclist.append(str)
+        for line in str:
+            if line.startswith('add '):
+                str=line.replace('\\', '')
     try:
         newdir=input('enter dir path to save .json file --> ')
         name=input('enter name for new file --> ')
@@ -146,13 +147,16 @@ def ipfirersc2json(rscfile):
         df_rsc.to_json(name + '.json')
     except FileNotFoundError as e:
         print('Input directory path')
-        ipfirersc2json(rscfile)
+        rsc2json(rscfile)
     except PermissionError as e:
         print('Permission Error, try another path')
-        ipfirersc2json(rscfile)
+        rsc2json(rscfile)
+    except OSError as e:
+        print('Cannot save file into a non-existent directory')
+        rsc2json(rscfile)
     return(df_rsc)
 
-def ipfirersc2sql(rscfile):
+def rsc2sql(rscfile):
     """Function is for use with IP-firewall-Address-List.rsc
     Converts .rsc file to sql .db file
     Args:
@@ -167,9 +171,8 @@ def ipfirersc2sql(rscfile):
     with open(rscfile) as rsc:
         for line in rsc:
             if line.startswith('add '):
-                str=line.replace('add ', '[add ').replace(
-                    'list=CountryIPBlocks\n', 'list=CountryIPBlocks]')
-            rsclist.append(str)
+                str=line.replace('list=CountryIPBlocks\n', 'list=CountryIPBlocks ')
+                rsclist.append(str)
     try:
         newdir=input('enter dir path to save .db file --> ')
         sql=input('enter sql sever (sqlite format) --> ')
@@ -180,13 +183,13 @@ def ipfirersc2sql(rscfile):
         df_rsc.to_sql(sql, if_exists="append", chunksize=1000, con=engine)
     except FileNotFoundError as e:
         print('Input directory path')
-        ipfirersc2sql(rscfile)
+        rsc2sql(rscfile)
     except PermissionError as e:
         print('Permission Error, try another path')
-        ipfirersc2sql(rscfile)
+        rsc2sql(rscfile)
     return(df_rsc)
 
-def ipfirersc2html(rscfile):
+def rsc2html(rscfile):
     """Function is for use with IP-firewall-Address-List.rsc
     Converts .rsc file to .html file
     Args:
@@ -200,8 +203,7 @@ def ipfirersc2html(rscfile):
     with open(rscfile) as rsc:
         for line in rsc:
             if line.startswith('add '):
-                str=line.replace('add ', '[add ').replace(
-                    'list=CountryIPBlocks\n', 'list=CountryIPBlocks]')
+                str=line.replace('list=CountryIPBlocks\n', 'list=CountryIPBlocks ')
                 rsclist.append(str)
     try:
         newdir=input('enter dir path to save .html file --> ')
@@ -212,9 +214,9 @@ def ipfirersc2html(rscfile):
         df_rsc.to_html(name + '.html')
     except FileNotFoundError as e:
         print('Input directory path')
-        ipfirersc2html(rscfile)
+        rsc2html(rscfile)
     except PermissionError as e:
         print('Permission Error, try another path')
-        ipfirersc2html(rscfile)
+        rsc2html(rscfile)
     return(df_rsc)
 start()
