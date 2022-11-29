@@ -2,11 +2,9 @@ import os; import glob; import pandas as pd
 def start():
     """Core function of script, sets scope of interlinked variables, 
     queries for inputs, executes functions in needed order, 
-    allows selection of file conversion function
-    
+    allows selection of file conversion function    
     Args:
-     none
-     
+     none   
     Returns:
      selected file conversion function output to selected directory path
      .rsc file contents in panda df"""
@@ -46,10 +44,8 @@ def start():
 def getrscfiles(inputdir):
     """change dir to .rsc file path, 
     picks up files places them in a dict
-    
     Args:
      directory path(str)
-     
     Returns: 
      Panda DataFrame"""
     global di_rscfiles
@@ -63,11 +59,9 @@ def getrscfiles(inputdir):
     return(di_rscfiles) 
 
 def rscselect(di_rscfiles):
-    """allows user to select .rsc file from dict with int
-        
+    """allows user to select .rsc file from dict with int    
     Args:
-     di_rscfiles=dictonary of .rsc file names
-         
+     di_rscfiles=dictonary of .rsc file names  
     Returns:
      .rsc file in dict object"""
     global di_rscfile
@@ -135,9 +129,6 @@ def rsc2json(rscfile):
             if line.startswith('add '):
                 str=line.replace('list=CountryIPBlocks\n', 'list=CountryIPBlocks ')
                 rsclist.append(str)
-        for line in str:
-            if line.startswith('add '):
-                str=line.replace('\\', '')
     try:
         newdir=input('enter dir path to save .json file --> ')
         name=input('enter name for new file --> ')
@@ -175,7 +166,7 @@ def rsc2sql(rscfile):
                 rsclist.append(str)
     try:
         newdir=input('enter dir path to save .db file --> ')
-        sql=input('enter sql sever (sqlite format) --> ')
+        sql=input('enter sql server (sqlite format) --> ')
         os.chdir(newdir)
         df_rsc1=pd.DataFrame(rsclist)
         df_rsc=df_rsc1.drop(0)
