@@ -7,8 +7,7 @@ Currently allows conversion of Ip-Address-Firewall.rsc files to .csv and .json <
 
 ## Needs to be done <br>
 Working on full sql .db conversion <br>
-Conversion into .html and .pdf formats <br>
+Conversion into .pdf formats <br>
 Future conversion back into .rsc planned <br>
-Tidy up of pandas df column and row index<br>
 Duplicate scripts created for all other .rsc files<br>
 Fix Global variables
